@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class PlinkdScaffold extends StatelessWidget {
   final Widget appBar;
   final Widget body;
-
-  const PlinkdScaffold({Key key, @required this.appBar, @required this.body})
+  final double curveRaduis;
+  const PlinkdScaffold({Key key, @required this.appBar, @required this.body, this.curveRaduis=20})
       : super(key: key);
+ // git config --global user.name "robincruseo"
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +14,9 @@ class PlinkdScaffold extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-          Color(0XFFe46514),
-          Color(0XFFf79836),
-        ])),
+              Color(0XFFe46514),
+              Color(0XFFf79836),
+            ])),
         child: Column(
           children: <Widget>[scaffoldAppBar(), scaffoldBody()],
         ),
@@ -41,8 +42,8 @@ class PlinkdScaffold extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50),
-              topRight: Radius.circular(50),
+              topLeft: Radius.circular(curveRaduis),
+              topRight: Radius.circular(curveRaduis),
             )),
       ),
     );
