@@ -14,6 +14,7 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   PageController vpController = PageController();
   final formatter = DateFormat("d MMM y");
+  var scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _SignupState extends State<Signup> {
     genderList.add(dropDownItem("Female"));
   }
 
-  BuildContext con;
+  //BuildContext con;
   int vpPosition = 0;
   List<DropdownMenuItem<String>> genderList = List();
   String myGender;
@@ -52,8 +53,11 @@ class _SignupState extends State<Signup> {
         vpController.animateToPage(vpPosition,
             duration: Duration(milliseconds: 500), curve: Curves.ease);
       },
-      child:
-          PlinkdScaffold(curveRadius: 25, appBar: buildAppBar(), body: page()),
+      child: PlinkdScaffold(
+          scaffoldKey: scaffoldKey,
+          curveRadius: 25,
+          appBar: buildAppBar(),
+          body: page()),
     );
   }
 
@@ -111,23 +115,24 @@ class _SignupState extends State<Signup> {
           addSpace(10),
           buttonItem("Continue", () {
             if (!isEmailValid(email)) {
-              toast(con, "Enter a valid email address");
+              toast(scaffoldKey, "Enter a valid email address");
               return;
             }
             if (firstName.trim().length < 2) {
-              toast(con, "Enter your first name");
+              toast(scaffoldKey, "Enter your first name");
               return;
             }
             if (lastName.trim().length < 2) {
-              toast(con, "Enter your last name");
+              toast(scaffoldKey, "Enter your last name");
               return;
             }
             if (pass1.length < 6) {
-              toast(con, "Your password should not be less that 6 characters");
+              toast(scaffoldKey,
+                  "Your password should not be less that 6 characters");
               return;
             }
             if (pass1 != pass2) {
-              toast(con, "Your password does not match");
+              toast(scaffoldKey, "Your password does not match");
               return;
             }
 
@@ -293,7 +298,7 @@ class _SignupState extends State<Signup> {
           title,
           style: textStyle(false, 12, black.withOpacity(.4)),
         ),
-        //addSpace(10),
+        //addSpace(10),+16505551234
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[

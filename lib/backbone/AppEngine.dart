@@ -14,8 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import '../main.dart';
 
-toast(context, text) {
-  return Scaffold.of(context).showSnackBar(new SnackBar(
+toast(scaffoldKey, text) {
+  return scaffoldKey.currentState.showSnackBar(new SnackBar(
     content: Padding(
       padding: const EdgeInsets.all(0.0),
       child: Text(

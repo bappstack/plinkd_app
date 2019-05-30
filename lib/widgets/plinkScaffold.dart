@@ -4,17 +4,22 @@ class PlinkdScaffold extends StatelessWidget {
   final Widget appBar;
   final Widget body;
   final double curveRadius;
+  final GlobalKey scaffoldKey;
+
   const PlinkdScaffold(
       {Key key,
       @required this.appBar,
       @required this.body,
-      this.curveRadius = 20})
+      this.curveRadius = 20,
+      this.scaffoldKey})
       : super(key: key);
+
   // git config --global user.name "robincruseo"
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
