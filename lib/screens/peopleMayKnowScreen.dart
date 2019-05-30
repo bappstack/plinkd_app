@@ -1,7 +1,7 @@
+import 'package:Plinkd/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:plinkd_app/utils/assets.dart';
-import 'package:plinkd_app/widgets/gradientButtons.dart';
-import 'package:plinkd_app/widgets/plinkScaffold.dart';
+import 'package:Plinkd/widgets/gradientButtons.dart';
+import 'package:Plinkd/widgets/plinkScaffold.dart';
 
 class PeopleMayKnowScreen extends StatefulWidget {
   @override

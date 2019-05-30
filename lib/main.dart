@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:plinkd_app/screens/dealScreen.dart';
+import 'package:Plinkd/screens/dealScreen.dart';
 
+import 'Signup.dart';
+import 'backbone/basemodel.dart';
 import 'screens/addFriendScreen.dart';
 import 'screens/peopleMayKnowScreen.dart';
-import 'utils/assets.dart';
+import 'package:Plinkd/assets.dart';
 
 void main() => runApp(MyApp());
+
+BaseModel userModel;
+bool showProgressLayout = false;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Plinkd',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: poppinFont),
-      home: AddFriendScreen(),
+      theme: ThemeData(primarySwatch: Colors.orange, fontFamily: poppinBold),
+      home: Signup(),
     );
   }
 }

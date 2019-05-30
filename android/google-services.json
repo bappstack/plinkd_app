@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "764084682654",
+    "firebase_url": "https://plinkdapp.firebaseio.com",
+    "project_id": "plinkdapp",
+    "storage_bucket": "plinkdapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764084682654:android:cc6a8fd4ea1bd3d6",
+        "android_client_info": {
+          "package_name": "com.fluidangle.plinkd_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764084682654-kff5tgot43ee7dh7q651k9756r4v8si0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4sJO1avdto8WcS01H7HgUW9IBqJQcXZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764084682654-kff5tgot43ee7dh7q651k9756r4v8si0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

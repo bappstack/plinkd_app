@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plinkd_app/utils/assets.dart';
-import 'package:plinkd_app/widgets/plinkScaffold.dart';
+import 'package:Plinkd/widgets/plinkScaffold.dart';
+
+import '../assets.dart';
 
 class DealScreen extends StatefulWidget {
   @override

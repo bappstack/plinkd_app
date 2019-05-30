@@ -1,8 +1,7 @@
+import 'package:Plinkd/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:plinkd_app/utils/assets.dart';
-import 'package:plinkd_app/widgets/gradientButtons.dart';
-import 'package:plinkd_app/widgets/gradientRoundCheckBox.dart';
-import 'package:plinkd_app/widgets/plinkScaffold.dart';
+import 'package:Plinkd/widgets/gradientRoundCheckBox.dart';
+import 'package:Plinkd/widgets/plinkScaffold.dart';
 
 class AddFriendScreen extends StatefulWidget {
   @override
