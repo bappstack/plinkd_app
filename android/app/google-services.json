@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1028609940225",
+    "firebase_url": "https://plinkd-app.firebaseio.com",
+    "project_id": "plinkd-app",
+    "storage_bucket": "plinkd-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028609940225:android:41e1e9bed752bd90",
+        "android_client_info": {
+          "package_name": "com.fluidangle.plinkdapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1028609940225-eih54cg4s24mrln9l8t9vgb45t9kvk9o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fluidangle.plinkdapp",
+            "certificate_hash": "028b7015c0abb601a18de4080444d2bf1cde005e"
+          }
+        },
+        {
+          "client_id": "1028609940225-sonjsbqkf24lga0bbi042nkg06b1v8lp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG4BrkYzoVkjpYm_umBx5q1P3jvAVywJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1028609940225-sonjsbqkf24lga0bbi042nkg06b1v8lp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1028609940225-1lfj1dgi8et221c25davjjod6ri8ek20.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fluidangle.plinkdapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
