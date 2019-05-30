@@ -9,3 +9,4 @@ const String maugostImage = "https://bit.ly/2BgMD85";
 
 //FOR COLORS
 const Color plinkdColor = Color(0XFFe46514);
+const Color btnColor = Color(0XFF2e2f33);
