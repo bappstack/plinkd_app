@@ -221,11 +221,7 @@ class _SignupState extends State<Signup> {
         textColor: white,
         child: Text(
           text,
-          style: TextStyle(
-              fontSize: 15,
-              fontFamily: "NirmalaB",
-              fontWeight: FontWeight.normal,
-              color: white),
+          style: textStyle(true, 20, white),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
