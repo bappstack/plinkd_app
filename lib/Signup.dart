@@ -298,7 +298,7 @@ class _SignupState extends State<Signup> {
           title,
           style: textStyle(false, 12, black.withOpacity(.4)),
         ),
-        //addSpace(10),+16505551234
+        //addSpace(10),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[

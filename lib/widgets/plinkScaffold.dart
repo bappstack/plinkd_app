@@ -10,8 +10,7 @@ class PlinkdScaffold extends StatelessWidget {
       {Key key,
       @required this.appBar,
       @required this.body,
-      this.curveRadius = 20,
-      this.scaffoldKey})
+      this.curveRadius = 20, this.scaffoldKey})
       : super(key: key);
 
   // git config --global user.name "robincruseo"
