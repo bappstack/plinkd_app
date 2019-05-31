@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'screens/plinkMapHome.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -8,6 +10,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    return PlinkdMapHome();
     return Scaffold();
   }
 }
