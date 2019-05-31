@@ -48,7 +48,7 @@ class GetStarted extends StatelessWidget {
                       onPressed: () {
                         goToWidget(context, Signup());
                       },
-                      padding: EdgeInsets.all(25),
+                      padding: EdgeInsets.all(20),
                       color: plinkBtnColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25)),
@@ -66,7 +66,7 @@ class GetStarted extends StatelessWidget {
                       onPressed: () {
                         goToWidget(context, Login());
                       },
-                      padding: EdgeInsets.all(25),
+                      padding: EdgeInsets.all(20),
                       color: plinkBtnColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25)),
