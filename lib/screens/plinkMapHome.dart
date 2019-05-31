@@ -40,39 +40,105 @@ class _PlinkdMapHomeState extends State<PlinkdMapHome> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMapOverlay(
-        mapOptions: GoogleMapOptions(initialCameraPosition: _kGooglePlex),
-        overlays: <MapOverlayWidgetContainer>[
-          MapOverlayWidgetContainer(
-            offset: Offset(0, 0),
-            position: _kGooglePlex.target,
+      body: Stack(
+        children: <Widget>[
+        buildMapLayout(),
+        buildBottomViews()
+          ,buildProfileBTN()
+        ],
+      ),
+    );
+  }
+
+  buildProfileBTN(){
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SafeArea(
+        child: IconButton(icon: Icon(Icons.person,size: 40,), onPressed: (){
+
+        }),
+      ),
+    );
+  }
+
+  buildMapLayout(){
+    return  GoogleMapOverlay(
+      mapOptions: GoogleMapOptions(initialCameraPosition: _kGooglePlex,myLocationButtonEnabled: false),
+      overlays: <MapOverlayWidgetContainer>[
+        MapOverlayWidgetContainer(
+          offset: Offset(0, 0),
+          position: _kGooglePlex.target,
+          child: AvatarBuilder(
+            imageUrl: maugostImage,
+            onlineStatus: 1,
+          ),
+        ),
+        MapOverlayWidgetContainer(
+          offset: Offset(1, 1),
+          position: _kNearGooglePlex.target,
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
             child: AvatarBuilder(
               imageUrl: maugostImage,
               onlineStatus: 1,
             ),
           ),
-          MapOverlayWidgetContainer(
-            offset: Offset(1, 1),
-            position: _kNearGooglePlex.target,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: AvatarBuilder(
-                imageUrl: maugostImage,
-                onlineStatus: 1,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: this.onFloatingPressed,
-        child: Column(
-          children: <Widget>[
-            Icon(Icons.pin_drop),
-            Text(delay.toString()),
-          ],
         ),
+      ],
+    );
+  }
+
+  buildBottomViews(){
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              buildButtonsView(
+                onPressed: (){
+
+                },
+                color: Colors.white,
+                icon: Icons.forum,
+               padding: 22
+              ),
+
+              buildButtonsView(
+                  onPressed: (){
+
+                  },
+                  color: plinkdColor,
+                  iconColor: Colors.white,
+                  icon: Icons.camera_alt,
+                  padding: 25
+              ),
+
+              buildButtonsView(
+                  onPressed: (){
+
+                  },
+                  color: Colors.white,
+                  icon: Icons.rss_feed,
+                  padding: 22
+              )
+            ],
+          ),
+        )
       ),
     );
   }
+
+  buildButtonsView({Color color,Color iconColor, IconData icon,double padding,VoidCallback onPressed }) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      child: Icon(icon,color:iconColor??Colors.black ,),
+      fillColor: color,
+      padding: EdgeInsets.all(padding),
+      shape: CircleBorder()
+    );
+  }
 }
+
