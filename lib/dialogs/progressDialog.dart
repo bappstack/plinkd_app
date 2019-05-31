@@ -83,18 +83,17 @@ class progressDialog extends StatelessWidget {
       fit: StackFit.expand,
       children: <Widget>[
         Container(
-          color: black.withOpacity(.8),
+          color: black.withOpacity(.7),
         ),
         Center(
             child: Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-              color: white, borderRadius: BorderRadius.circular(15)),
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(color: white, shape: BoxShape.circle),
         )),
         Center(
           child: Opacity(
-            opacity: .3,
+            opacity: 1,
             child: Image.asset(
               ic_launcher,
               width: 20,
@@ -103,10 +102,14 @@ class progressDialog extends StatelessWidget {
           ),
         ),
         Center(
-          child: CircularProgressIndicator(
-            //value: 20,
-            valueColor: AlwaysStoppedAnimation<Color>(blue3),
-            strokeWidth: 2,
+          child: Container(
+            width: 40,
+            height: 40,
+            child: CircularProgressIndicator(
+              //value: 20,
+              valueColor: AlwaysStoppedAnimation<Color>(orang1),
+              strokeWidth: 2,
+            ),
           ),
         ),
         Column(

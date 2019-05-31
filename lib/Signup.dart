@@ -29,6 +29,7 @@ class _SignupState extends State<Signup> {
     super.initState();
     genderList.add(dropDownItem("Male"));
     genderList.add(dropDownItem("Female"));
+    genderList.add(dropDownItem("Other"));
     getUserId();
   }
 
@@ -215,7 +216,7 @@ class _SignupState extends State<Signup> {
     model.put(CITY_LAT, cityLat);
     model.put(CITY_LON, cityLon);
     model.saveItem(USER_BASE, true, document: userId, onComplete: () {
-      showProgress(false, context);
+      showProgress(false, context, msg: "Signing up");
       showMessage(context, Icons.check, blue0, "Successful",
           "Your account has been created successfully",
           clickYesText: "PROCEED", delayInMilli: 600, onClicked: (_) {

@@ -6,6 +6,7 @@ import 'package:Plinkd/screens/dealScreen.dart';
 import 'MainActivity.dart';
 import 'Signup.dart';
 import 'backbone/basemodel.dart';
+import 'dialogs/progressDialog.dart';
 import 'screens/addFriendScreen.dart';
 import 'screens/peopleMayKnowScreen.dart';
 import 'package:Plinkd/assets.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Plinkd',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.orange, fontFamily: poppinBold),
+      color: white,
       home: Builder(
         builder: (context) {
           this.context = context;
