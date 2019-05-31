@@ -54,7 +54,7 @@ class _PlinkdMapHomeState extends State<PlinkdMapHome> {
     return Align(
       alignment: Alignment.topLeft,
       child: SafeArea(
-        child: IconButton(icon: Icon(Icons.person,size: 40,), onPressed: (){
+        child: IconButton(icon: Icon(Icons.person,size: 35,), onPressed: (){
 
         }),
       ),
