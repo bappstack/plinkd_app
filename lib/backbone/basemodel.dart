@@ -293,26 +293,23 @@ class BaseModel {
     items[CREATED_AT] = FieldValue.serverTimestamp();
     items[TIME] = DateTime.now().millisecondsSinceEpoch;
     items[TIME_UPDATED] = DateTime.now().millisecondsSinceEpoch;
-    if (name != (USER_BASE)) {
-      if (addMyInfo) addMyDetails();
-    }
+    if (addMyInfo) addMyDetails();
   }
 
   void addMyDetails() {
-    /*items[USER_ID] = userModel.getUserId();
+    if (userModel == null) return;
+    items[USER_ID] = userModel.getObjectId();
     items[USER_IMAGE] = userModel.getString(USER_IMAGE);
-    items[USERNAME] = userModel.getUserName();*/
+    items[FIRST_NAME] = userModel.getString(FIRST_NAME);
+    items[LAST_NAME] = userModel.getString(LAST_NAME);
   }
 
   void saveItem(String name, bool addMyInfo, {document, onComplete}) {
     processSave(name, addMyInfo);
     if (document == null) {
-      Firestore.instance
-              .collection(name)
-              .add(items) /*.whenComplete((){
+      Firestore.instance.collection(name).add(items).whenComplete(() {
         onComplete();
-      })*/
-          ;
+      });
     } else {
       items[OBJECT_ID] = document;
       Firestore.instance

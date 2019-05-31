@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1028609940225-osmemui9kltp5nsc3hppcf82rdi6beq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fluidangle.plinkd_app",
+            "certificate_hash": "a67d4c8d9bee4a6c92f499304a072910954add75"
+          }
+        },
+        {
           "client_id": "1028609940225-mk1kfce6ajeteneti94u30bv2frnoo6i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

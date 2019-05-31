@@ -1,6 +1,7 @@
 import 'package:Plinkd/backbone/AppEngine.dart';
 import 'package:Plinkd/assets.dart';
 import 'package:Plinkd/dialogs/phoneDialog.dart';
+import 'package:Plinkd/widgets/plinkScaffold.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,13 +19,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
   String countryCode = "+234";
   TextEditingController phoneControl = new TextEditingController();
   TextEditingController codeControl = new TextEditingController();
+  var scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    //checkCountry();
   }
 
   BuildContext con;
@@ -32,16 +32,17 @@ class _PhoneVerificationState extends State<PhoneVerification> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: orange0, statusBarBrightness: Brightness.dark));
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        resizeToAvoidBottomPadding: true,
-        backgroundColor: white,
-        /*appBar: PreferredSize(
-            child: Container(
-              color: orange05,
-              height: 25,
-            ),
-            preferredSize: Size(100, 30)),*/
+    return PlinkdScaffold(
+        scaffoldKey: scaffoldKey,
+        curveRadius: 25,
+        appBar: Padding(
+          padding: EdgeInsets.all(25),
+          child: Text(
+            "Sign up",
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
         body: Builder(builder: (c) {
           con = c;
           return page();
@@ -51,23 +52,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
   page() {
     return Container(
       child: Column(
-        children: <Widget>[
-          Container(
-            color: orange0,
-            height: 25,
-          ),
-          Container(
-              color: orange0,
-              height: 100,
-              child: Center(
-                  child: Text(
-                "Sign up",
-                style: textStyle(true, 25, white),
-              ))),
-          gradientLine(reverse: true, height: 5),
-          addSpace(20),
-          verifying ? pageCode() : pagePhone()
-        ],
+        children: <Widget>[addSpace(20), verifying ? pageCode() : pagePhone()],
       ),
     );
   }
@@ -111,10 +96,8 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       timeout: Duration(seconds: 5),
-      verificationCompleted: (user) {
-        //toastInAndroid("Verfified");
-        showProgress(false, context);
-        nextScreen();
+      verificationCompleted: (AuthCredential auth) {
+        signin(auth);
       },
       verificationFailed: (AuthException authException) {
         showProgress(false, context);
@@ -141,13 +124,18 @@ class _PhoneVerificationState extends State<PhoneVerification> {
   checkCode() {
     String code = codeControl.text.trim();
     if (code.isEmpty) {
-      toast(con, "Enter the sms code sent to you or click resend code");
+      toast(scaffoldKey, "Enter the sms code sent to you or click resend code");
       return;
     }
-    showProgress(true, context, msg: "Verifying Code...");
 
     AuthCredential credential = PhoneAuthProvider.getCredential(
         verificationId: verificationId, smsCode: code);
+
+    signin(credential);
+  }
+
+  signin(AuthCredential credential) {
+    showProgress(true, context, msg: "Verifying Code...");
 
     FirebaseAuth.instance.signInWithCredential(credential).then((user) {
       showProgress(false, context);
@@ -174,54 +162,6 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       }));
     });
   }
-  /*void _signInWithPhoneNumber(String smsCode) async {
-    await FirebaseAuth.instance
-        .signInWithPhoneNumber(verificationId: verificationId, smsCode: smsCode)
-        .then((FirebaseUser user) async {
-      final FirebaseUser currentUser = await _auth.currentUser();
-      assert(user.uid == currentUser.uid);
-      print('signed in with phone number successful: user -> $user');
-    });
-  }*/
-
-  /*
-  * String verificationId;
-
-/// Sends the code to the specified phone number.
-  Future<void> _sendCodeToPhoneNumber() async {
-    final PhoneVerificationCompleted verificationCompleted = (FirebaseUser user) {
-      setState(() {
-          print('Inside _sendCodeToPhoneNumber: signInWithPhoneNumber auto succeeded: $user');
-      });
-    };
-
-    final PhoneVerificationFailed verificationFailed = (AuthException authException) {
-      setState(() {
-        print('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');}
-        );
-    };
-
-    final PhoneCodeSent codeSent =
-        (String verificationId, [int forceResendingToken]) async {
-      this.verificationId = verificationId;
-      print("code sent to " + _phoneNumberController.text);
-    };
-
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
-      this.verificationId = verificationId;
-      print("time out");
-    };
-
-     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: _phoneNumberController.text,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed,
-        codeSent: codeSent,
-        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-  }
-  * */
 
   pageCode() {
     return new Expanded(
@@ -282,7 +222,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
               ),
               addSpace(15),
               Opacity(
-                opacity: timeText.isEmpty ? 1 : (.5),
+                opacity: timeText.isEmpty ? 1 : (.3),
                 child: Container(
                   height: 35,
                   width: 105,
@@ -430,7 +370,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   onPressed: () {
                     String text = phoneControl.text.trim();
                     if (text.isEmpty) {
-                      toast(con, "Please enter your phone number");
+                      toast(scaffoldKey, "Please enter your phone number");
                       return;
                     }
 
@@ -456,11 +396,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   textColor: white,
                   child: Text(
                     "Continue",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "NirmalaB",
-                        fontWeight: FontWeight.normal,
-                        color: white),
+                    style: textStyle(true, 18, white),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),

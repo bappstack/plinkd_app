@@ -1,10 +1,15 @@
 import 'package:Plinkd/backbone/AppEngine.dart';
 import 'package:Plinkd/assets.dart';
 import 'package:Plinkd/widgets/plinkScaffold.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
+
+import 'MainActivity.dart';
+import 'backbone/basemodel.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -16,12 +21,20 @@ class _SignupState extends State<Signup> {
   final formatter = DateFormat("d MMM y");
   var scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  String userId;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     genderList.add(dropDownItem("Male"));
     genderList.add(dropDownItem("Female"));
+    getUserId();
+  }
+
+  getUserId() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    userId = user.uid;
   }
 
   //BuildContext con;
@@ -29,14 +42,14 @@ class _SignupState extends State<Signup> {
   List<DropdownMenuItem<String>> genderList = List();
   String myGender;
   String myAge = "";
-  int dateOfBirth;
+  int dateOfBirth = 0;
   String email = "";
   String firstName = "";
   String lastName = "";
-  String pass1 = "";
-  String pass2 = "";
-  String job = "";
-  String about = "";
+  String hometown = "";
+  String city = "";
+  double cityLat;
+  double cityLon;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +58,6 @@ class _SignupState extends State<Signup> {
     return WillPopScope(
       onWillPop: () {
         if (vpPosition == 0) {
-          Navigator.pop(context);
           return;
         }
 
@@ -56,19 +68,17 @@ class _SignupState extends State<Signup> {
       child: PlinkdScaffold(
           scaffoldKey: scaffoldKey,
           curveRadius: 25,
-          appBar: buildAppBar(),
+          appBar: Padding(
+            padding: EdgeInsets.all(25),
+            child: Text(
+              "Create Account",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
           body: page()),
-    );
-  }
-
-  buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.all(25),
-      child: Text(
-        "Create Account",
-        style: TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
     );
   }
 
@@ -76,10 +86,10 @@ class _SignupState extends State<Signup> {
     return PageView.builder(
       itemBuilder: (c, p) {
         if (p == 0) return page1();
-        if (p == 1) return page2();
+        //if (p == 1) return page2();
       },
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 2,
+      itemCount: 1,
       onPageChanged: (p) {
         setState(() {
           vpPosition = p;
@@ -95,29 +105,70 @@ class _SignupState extends State<Signup> {
       child: Column(
         children: <Widget>[
           addSpace(20),
-          inputItem("EMAIL ADDRESS", email, Icons.email, (s) {
-            email = s;
-          },
-              inputType: TextInputType.emailAddress,
-              hint: "Enter Email Address"),
           inputItem("FIRST NAME", firstName, Icons.person, (s) {
             firstName = s;
           }, hint: "Enter First Name"),
           inputItem("LAST NAME", lastName, Icons.person, (s) {
             lastName = s;
           }, hint: "Enter Last Name"),
-          inputItem("PASSWORD", pass1, Icons.lock, (s) {
-            pass1 = s;
-          }, isPass: true, hint: "Enter Password"),
-          inputItem("CONFIRM PASSWORD", pass2, Icons.lock, (s) {
-            pass2 = s;
-          }, isPass: true, hint: "Retype Password"),
+          new Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.person,
+                    size: 25,
+                    color: black.withOpacity(.4),
+                  ),
+                  addSpaceWidth(10),
+                  Flexible(
+                    child: DropdownButton(
+                      value: myGender,
+                      style: textStyle(false, 20, black),
+                      items: genderList,
+                      onChanged: (s) {
+                        setState(() {
+                          myGender = s;
+                        });
+                      },
+                      hint: Text(
+                        "Select your gender",
+                        style: textStyle(false, 17, black.withOpacity(.2)),
+                      ),
+                      underline: Container(),
+                    ),
+                  ),
+                ],
+              ),
+              //addSpace(10),
+              addLine(1, black.withOpacity(.1), 0, 0, 0, 20)
+            ],
+          ),
+          inputItemTv("AGE", myAge, Icons.date_range, () {
+            DatePicker.showDatePicker(context,
+                currentTime: DateTime(1990, 1, 1),
+                locale: LocaleType.en,
+                showTitleActions: true, onConfirm: (date) {
+              myAge = formatter.format(date);
+              dateOfBirth = date.millisecondsSinceEpoch;
+              setState(() {});
+            }, onChanged: (date) {
+              myAge = formatter.format(date);
+              dateOfBirth = date.millisecondsSinceEpoch;
+              setState(() {});
+            });
+          }, "Date of birth"),
+          inputItem("HOMETOWN", hometown, Icons.home, (s) {
+            hometown = s;
+          }, hint: "Enter Hometown"),
+          inputItemTv("CITY", city, Icons.location_city, () {
+            findPlace();
+          }, "Select your city"),
           addSpace(10),
-          buttonItem("Continue", () {
-            if (!isEmailValid(email)) {
-              toast(scaffoldKey, "Enter a valid email address");
-              return;
-            }
+          buttonItem("Create Account", () {
             if (firstName.trim().length < 2) {
               toast(scaffoldKey, "Enter your first name");
               return;
@@ -126,18 +177,24 @@ class _SignupState extends State<Signup> {
               toast(scaffoldKey, "Enter your last name");
               return;
             }
-            if (pass1.length < 6) {
-              toast(scaffoldKey,
-                  "Your password should not be less that 6 characters");
+            if (myGender == null) {
+              toast(scaffoldKey, "Select your gender");
               return;
             }
-            if (pass1 != pass2) {
-              toast(scaffoldKey, "Your password does not match");
+            if (dateOfBirth == 0) {
+              toast(scaffoldKey, "Select your date of birth");
+              return;
+            }
+            if (hometown.trim().isEmpty) {
+              toast(scaffoldKey, "Enter your hometown");
+              return;
+            }
+            if (city.trim().isEmpty) {
+              toast(scaffoldKey, "Select your city");
               return;
             }
 
-            vpController.animateToPage(1,
-                duration: Duration(milliseconds: 500), curve: Curves.ease);
+            createAccount();
           }),
           addSpace(50)
         ],
@@ -145,7 +202,31 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  page2() {
+  createAccount() {
+    showProgress(true, context);
+
+    BaseModel model = BaseModel();
+    model.put(FIRST_NAME, firstName);
+    model.put(LAST_NAME, lastName);
+    model.put(GENDER, myGender);
+    model.put(DATE_OF_BIRTH, dateOfBirth);
+    model.put(HOMETOWN, hometown);
+    model.put(CITY, city);
+    model.put(CITY_LAT, cityLat);
+    model.put(CITY_LON, cityLon);
+    model.saveItem(USER_BASE, true, document: userId, onComplete: () {
+      showProgress(false, context);
+      showMessage(context, Icons.check, blue0, "Successful",
+          "Your account has been created successfully",
+          clickYesText: "PROCEED", delayInMilli: 600, onClicked: (_) {
+        if (_ == true) {
+          pushAndResult(context, MainActivity());
+        }
+      });
+    });
+  }
+
+  /*page2() {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
       child: Column(
@@ -214,7 +295,7 @@ class _SignupState extends State<Signup> {
         ],
       ),
     );
-  }
+  }*/
 
   buttonItem(text, onPressed, {color = black}) {
     return Container(
@@ -226,7 +307,7 @@ class _SignupState extends State<Signup> {
         textColor: white,
         child: Text(
           text,
-          style: textStyle(true, 22, white),
+          style: textStyle(true, 16, white),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
@@ -296,7 +377,7 @@ class _SignupState extends State<Signup> {
       children: <Widget>[
         Text(
           title,
-          style: textStyle(false, 12, black.withOpacity(.4)),
+          style: textStyle(true, 12, black.withOpacity(.4)),
         ),
         //addSpace(10),
         Row(
@@ -347,5 +428,34 @@ class _SignupState extends State<Signup> {
       ),
       value: text,
     );
+  }
+
+  bool canClickFind = true;
+  findPlace() async {
+    if (!canClickFind) return;
+    canClickFind = false;
+
+    Place place;
+    try {
+      place = await PluginGooglePlacePicker.showAutocomplete(
+          PlaceAutocompleteMode.MODE_OVERLAY);
+    } on Exception {
+      place = null;
+    }
+
+    canClickFind = true;
+
+    if (place != null) {
+      String name = place.name;
+      String address = place.address;
+      double lat = place.latitude;
+      double lon = place.longitude;
+
+      setState((() {
+        cityLat = lat;
+        cityLon = lon;
+        city = name;
+      }));
+    }
   }
 }

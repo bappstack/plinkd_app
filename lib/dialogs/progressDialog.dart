@@ -37,10 +37,7 @@ class progressDialog extends StatelessWidget {
   bool cancelable;
   BuildContext context;
 
-  progressDialog({bool cancelable = false, message = ""}) {
-    this.message = message;
-    this.cancelable = cancelable;
-  }
+  progressDialog({this.cancelable = false, this.message = ""});
 
   void hideHandler() {
     Future.delayed(Duration(milliseconds: 500), () {
@@ -120,14 +117,16 @@ class progressDialog extends StatelessWidget {
               child: new Container(),
               flex: 1,
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                message,
-                style: textStyle(false, 15, white),
-                textAlign: TextAlign.center,
-              ),
-            ),
+            message == null || message.isEmpty
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      message,
+                      style: textStyle(false, 15, white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
           ],
         ),
       ],

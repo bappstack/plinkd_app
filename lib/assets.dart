@@ -35,6 +35,14 @@ const String READ = "read";
 const String USER_IMAGE = "userImage";
 const String ADD = "add";
 const String VALUE = "value";
+const String FIRST_NAME = "firstName";
+const String LAST_NAME = "lastName";
+const String DATE_OF_BIRTH = "dateOfBirth";
+const String HOMETOWN = "hometown";
+const String CITY = "city";
+const String CITY_LAT = "cityLat";
+const String CITY_LON = "cityLon";
+const String GENDER = "gender";
 
 //FOR COLORS
 const Color plinkdColor = Color(0XFFe46514);
